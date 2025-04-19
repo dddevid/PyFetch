@@ -16,11 +16,9 @@ A fork of Neofetch written entirely in Python. Displays system information with 
 - Python 3.6 or higher
 - `psutil` module: `pip install psutil`
 
-### Manual Installation
+### Manual Installation with git and pip
 ```bash
-git clone https://github.com/dddevid/pyfetch.git
-cd pyfetch
-pip install -r requirements.txt
+pip install git+https://github.com/dddevid/pyfetch.git
 ```
 Alternatively, you can install PyFetch via pip:
 ```bash
