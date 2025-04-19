@@ -1,25 +1,98 @@
-<h3 align="center"><img src="https://i.imgur.com/ZQI2EYz.png" alt="logo" height="100px"></h3>
-<p align="center">A command-line system information tool written in bash 3.2+</p>
+**# PyFetch**
+A fork of Neofetch written entirely in Python. Displays system information with Neofetch-style ASCII art.
 
-<p align="center">
-<a href="./LICENSE.md"><img src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
-<a href="https://github.com/dylanaraps/neofetch/releases"><img src="https://img.shields.io/github/release/dylanaraps/neofetch.svg"></a>
-<a href="https://repology.org/metapackage/neofetch"><img src="https://repology.org/badge/tiny-repos/neofetch.svg" alt="Packaging status"></a>
-</p>
+**## Features**
+- **Cross-platform**: works on Windows, Linux, and macOS
+- **Comprehensive system information**: displays username, hostname, OS, kernel, uptime, packages, shell, resolution, DE/WM, terminal, CPU, GPU, RAM, disk, temperature
+- **ASCII Art**: uses the same ASCII art as Neofetch, with support for custom art
+- **ANSI Colors**: full support for color terminals
+- **Configurable**: customizable configurations via JSON files
+- **Portable**: written entirely in Python, easily extensible
 
-<img src="https://i.imgur.com/GFmC5Ad.png" alt="neofetch" align="right" height="240px">
+**## Installation**
+**### Requirements**
+- Python 3.6 or higher
+- `psutil` module: `pip install psutil`
 
-Neofetch is a command-line system information tool written in `bash 3.2+`. Neofetch displays information about your operating system, software and hardware in an aesthetic and visually pleasing way.
+**### Manual Installation**
+```bash
+git clone https://github.com/your-username/pyfetch.git
+cd pyfetch
+pip install -r requirements.txt
+```
+Alternatively, you can install PyFetch via pip:
+```bash
+pip install pyfetch
+```
 
-The overall purpose of Neofetch is to be used in screen-shots of your system. Neofetch shows the information other people want to see. There are other tools available for proper system statistic/diagnostics.
+**## Usage**
+Run PyFetch from the command line:
+```bash
+python pyfetch.py
+```
+Or, if installed via pip:
+```bash
+pyfetch
+```
 
-The information by default is displayed alongside your operating system's logo. You can further configure Neofetch to instead use an image, a custom ASCII file, your wallpaper or nothing at all.
+**### Options**
+- `--ascii FILE`: Use a custom ASCII file
+- `--ascii_distro DISTRO`: Use ASCII art from a specific distribution
+- `--config FILE`: Use a custom configuration file
+- `--no_color`: Disable colors
+- `--version`: Show PyFetch version
 
-<img src="https://i.imgur.com/lUrkQBN.png" alt="neofetch" align="right" height="240px">
+**## Configuration**
+PyFetch can be configured via a JSON configuration file. The default configuration file is located at:
+- **Linux/macOS**: `~/.config/pyfetch/config.json` or `~/.pyfetch.json`
+- **Windows**: `%APPDATA%\PyFetch\config.json` or `~/pyfetch.json`
 
-You can further configure Neofetch to display exactly what you want it to. Through the use of command-line flags and the configuration file you can change existing information outputs or add your own custom ones.
+**### Configuration Example**
+```json
+{
+    "show_ascii": true,
+    "show_colors": true,
+    "show_color_blocks": true,
+    "info": {
+        "os": true,
+        "kernel": true,
+        "uptime": true,
+        "packages": true,
+        "shell": true,
+        "resolution": true,
+        "de": true,
+        "wm": true,
+        "terminal": true,
+        "cpu": true,
+        "gpu": true,
+        "memory": true,
+        "disk": true,
+        "temperatures": true
+    },
+    "ascii_art": {
+        "use_custom": false,
+        "custom_path": "",
+        "distro_override": ""
+    }
+}
+```
 
-Neofetch supports almost 150 different operating systems. From Linux to Windows, all the way to more obscure operating systems like Minix, AIX and Haiku. If your favourite operating system is unsupported: Open up an issue and support will be added.
+**## Extension**
+PyFetch is designed to be easily extensible. You can add new features by modifying the following files:
+- `system_info.py`: Add new methods for collecting system information
+- `ascii_art.py`: Add new ASCII art for distributions or operating systems
+- `config.py`: Add new configuration options
 
+**## Contributing**
+Contributions are welcome! If you want to contribute to PyFetch, follow these steps:
+1. Fork the repository
+2. Create a branch for your feature (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Added a new feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-### More: \[[Dependencies](https://github.com/dylanaraps/neofetch/wiki/Dependencies)\] \[[Installation](https://github.com/dylanaraps/neofetch/wiki/Installation)\] \[[Wiki](https://github.com/dylanaraps/neofetch/wiki)\]
+**## License**
+Distributed under the MIT License. See `LICENSE` for more information.
+
+**## Acknowledgments**
+- [Neofetch](https://github.com/dylanaraps/neofetch) - The original inspiration for this project
