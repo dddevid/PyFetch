@@ -200,8 +200,8 @@ class SystemInfo:
         cpu_info["threads"] = psutil.cpu_count(logical=True)
         cpu_info["usage"] = f"{psutil.cpu_percent()}%"
         
-        # Se la descrizione della CPU è vuota, prova un metodo alternativo
-        if not cpu_info["model"] or cpu_info["model"] == "":
+        # Se la descrizione della CPU è vuota o contiene informazioni tecniche, prova un metodo alternativo
+        if not cpu_info["model"] or cpu_info["model"] == "" or "family" in cpu_info["model"].lower() or "intel64" in cpu_info["model"].lower():
             if self.os_type == "windows":
                 try:
                     import winreg
@@ -209,6 +209,23 @@ class SystemInfo:
                                          r"HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0")
                     cpu_info["model"] = winreg.QueryValueEx(key, "ProcessorNameString")[0]
                     winreg.CloseKey(key)
+                    
+                    # Pulizia del nome della CPU
+                    model = cpu_info["model"]
+                    
+                    # Rimuovi prefissi e suffissi comuni
+                    model = re.sub(r"Intel\(R\) Core\(TM\)", "Intel", model)
+                    model = re.sub(r"AMD", "AMD", model)
+                    model = re.sub(r"Processor", "", model)
+                    model = re.sub(r"CPU", "", model)
+                    model = re.sub(r"\s+@\s+.*$", "", model)  # Rimuovi la parte con la frequenza
+                    model = re.sub(r"\s+GHz$", "", model)  # Rimuovi la parte con GHz
+                    model = re.sub(r"\s+MHz$", "", model)  # Rimuovi la parte con MHz
+                    
+                    # Rimuovi spazi multipli
+                    model = re.sub(r"\s+", " ", model).strip()
+                    
+                    cpu_info["model"] = model
                 except:
                     pass
             elif self.os_type == "linux":
@@ -216,17 +233,48 @@ class SystemInfo:
                     with open("/proc/cpuinfo") as f:
                         for line in f:
                             if "model name" in line:
-                                cpu_info["model"] = line.split(":")[1].strip()
+                                model = line.split(":")[1].strip()
+                                # Pulizia del nome della CPU
+                                model = re.sub(r"Intel\(R\) Core\(TM\)", "Intel", model)
+                                model = re.sub(r"AMD", "AMD", model)
+                                model = re.sub(r"Processor", "", model)
+                                model = re.sub(r"CPU", "", model)
+                                model = re.sub(r"\s+@\s+.*$", "", model)
+                                model = re.sub(r"\s+GHz$", "", model)
+                                model = re.sub(r"\s+MHz$", "", model)
+                                model = re.sub(r"\s+", " ", model).strip()
+                                cpu_info["model"] = model
                                 break
                 except:
                     pass
             elif self.os_type == "darwin":
                 try:
                     cmd = "sysctl -n machdep.cpu.brand_string"
-                    cpu_info["model"] = subprocess.check_output(cmd, shell=True, text=True).strip()
+                    model = subprocess.check_output(cmd, shell=True, text=True).strip()
+                    # Pulizia del nome della CPU
+                    model = re.sub(r"Intel\(R\) Core\(TM\)", "Intel", model)
+                    model = re.sub(r"AMD", "AMD", model)
+                    model = re.sub(r"Processor", "", model)
+                    model = re.sub(r"CPU", "", model)
+                    model = re.sub(r"\s+@\s+.*$", "", model)
+                    model = re.sub(r"\s+GHz$", "", model)
+                    model = re.sub(r"\s+MHz$", "", model)
+                    model = re.sub(r"\s+", " ", model).strip()
+                    cpu_info["model"] = model
                 except:
                     pass
                     
+        # Se dopo tutti i tentativi abbiamo ancora un nome troppo lungo o tecnico, proviamo a estrarne la parte più significativa
+        if len(cpu_info["model"]) > 50 or "family" in cpu_info["model"].lower():
+            # Cerca di estrarre un pattern come "i7-12700H" o "Ryzen 9 5900X"
+            intel_match = re.search(r"i[3579]-\d{4,5}[A-Z]*", cpu_info["model"])
+            amd_match = re.search(r"Ryzen\s+\d+\s+\d{4}[A-Z]*", cpu_info["model"])
+            
+            if intel_match:
+                cpu_info["model"] = f"Intel {intel_match.group(0)}"
+            elif amd_match:
+                cpu_info["model"] = f"AMD {amd_match.group(0)}"
+                
         return cpu_info
     
     def get_gpu_info(self):
