@@ -24,7 +24,7 @@ pip install -r requirements.txt
 ```
 Alternatively, you can install PyFetch via pip:
 ```bash
-pip install pyfetch
+pip install git+https://github.com/dddevid/pyfetch.git
 ```
 
 ## Usage
