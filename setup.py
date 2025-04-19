@@ -18,7 +18,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="pyfetch",
-    version="0.1.0",
+    version="0.1.1",
     author="PyFetch Team",
     author_email="devidrru@gmail.com",  # Sostituisci con un email reale
     description="Un fork di Neofetch scritto in Python che mostra informazioni di sistema con ASCII art",
