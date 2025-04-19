@@ -17,14 +17,14 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setup(
-    name="pyfetch",
+    name="devid-pyfetch",  # Cambiato da "pyfetch" a "devid-pyfetch"
     version="0.1.0",
     author="PyFetch Team",
-    author_email="devidrru@gmail.com",
+    author_email="devidrru@gmail.com",  # Sostituisci con un email reale
     description="Un fork di Neofetch scritto in Python che mostra informazioni di sistema con ASCII art",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/dddevid/pyfetch",
+    url="https://github.com/dddevid/pyfetch",  # Sostituisci con l'URL reale del repository
     packages=find_packages(),
     py_modules=["pyfetch", "ascii_art", "config", "system_info"],
     install_requires=requires,

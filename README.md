@@ -22,7 +22,7 @@ pip install git+https://github.com/dddevid/pyfetch.git
 ```
 Alternatively, you can install PyFetch via pip:
 ```bash
-pip install git+https://github.com/dddevid/pyfetch.git
+pip install devid-pyfetch
 ```
 
 ## Usage
